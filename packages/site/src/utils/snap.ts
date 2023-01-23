@@ -21,11 +21,12 @@ export const getSnaps = async (): Promise<GetSnapsResponse> => {
  */
 export const connectSnap = async (
   snapId: string = defaultSnapOrigin,
-  _params: Record<'version' | string, unknown> = {},
+  params: Record<'version' | string, unknown> = {},
 ) => {
   console.log('Connecting snap', snapId);
+  console.log('params', params);
   await window.ethereum.request({
-/*     method: 'wallet_enable',
+    method: 'wallet_enable',
     params: [
       {
         wallet_snap: {
@@ -34,14 +35,14 @@ export const connectSnap = async (
           },
         },
       },
-    ], */
-    method: 'wallet_invokeSnap',
+    ],
+    /*     method: 'wallet_invokeSnap',
     params: [
       snapId,
       {
         method: 'connect',
       },
-    ],
+    ], */
   });
 };
 
