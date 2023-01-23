@@ -33,25 +33,6 @@ export const promptUser = async (
   return false;
 };
 
-// save the EOA to the snap state
-export const saveEOAInfo = async (EOA: string) => {
-  await wallet.request({
-    method: 'snap_manageState',
-    params: ['update', { EOA }],
-  });
-};
-
-// get the EOA from the snap state
-export const getEOAInfo = async () => {
-  console.log(' EOA proposed');
-
-  const state = await wallet.request({
-    method: 'snap_manageState',
-    params: ['get'],
-  });
-  return state;
-};
-
 export const signing = async (EOA: string, message: string) => {
   const response: any = await wallet.request({
     method: 'snap_signMessage',
@@ -79,7 +60,53 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
   request,
 }) => {
+  // get the EOA store
+/*   let state = await wallet.request({
+    method: 'snap_manageState',
+    params: ['get'],
+  });
+
+  if (!state) {
+    state = { ExtEOA };
+    // initialize state if empty and set default data
+    await wallet.request({
+      method: 'snap_manageState',
+      params: ['update', state],
+    });
+  } */
+
   switch (request.method) {
+    case 'connect': {
+      console.log('User update EOA account');
+
+      await wallet.request({
+        method: 'snap_manageState',
+        params: ['update', /* state */ { Ext: ExtEOA }],
+      });
+
+      /*  console.log('Connecting EOA...');
+      promptUser(
+        getMessage(origin),
+        'Do you want to use INTU EOA account?',
+        `Your new Address is ${ExtEOA}`,
+      ).then((approval) => {
+        if (approval) {
+          console.log('state', state);
+          console.log('User approved');
+        } else {
+          Error('EOA user');
+        }
+      }); */
+      console.log('User getting EOA account');
+
+      const eoa = await wallet.request({
+        method: 'snap_manageState',
+        params: ['get'],
+      });
+
+      console.log('state', eoa);
+      return true;
+    }
     case 'hello':
       return wallet.request({
         method: 'snap_confirm',
@@ -93,33 +120,12 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
           },
         ],
       });
+
     // this method retrieve the unique key associated with an app that has been added to the MetaMask browser extension.
     // This key can be used to interact with the app, such as signing transactions, and is necessary for the app to function properly.
     /*       return wallet.request({
         method: 'snap_getAppKey',
       }); */
-    case 'connect': {
-      return new Promise((resolve, reject) => {
-        saveEOAInfo(ExtEOA).then(() => {
-          // get the EOA from the snap state
-          getEOAInfo().then((state) => {
-            promptUser(
-              getMessage(origin),
-              'Do you want to connect to this app?',
-              `Your personal EOA is: ${ExtEOA}`,
-            ).then((approval) => {
-              console.log(' EOA approved');
-              if (approval) {
-                console.log(' EOA approved');
-                resolve(state);
-              } else {
-                reject(new Error('EOA user'));
-              }
-            });
-          });
-        });
-      });
-    }
     default:
       throw new Error('Method not found.');
   }

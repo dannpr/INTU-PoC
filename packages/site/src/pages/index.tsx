@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useContext } from 'react';
 import styled from 'styled-components';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
@@ -6,6 +7,7 @@ import {
   getSnap,
   sendHello,
   shouldDisplayReconnectButton,
+  connectEOA,
 } from '../utils';
 import {
   ConnectButton,
@@ -119,7 +121,10 @@ const Index = () => {
 
   const handleSendHelloClick = async () => {
     try {
-      await sendHello();
+      console.log('connect eoa');
+      // await sendHello();
+
+      await connectEOA();
     } catch (e) {
       console.error(e);
       dispatch({ type: MetamaskActions.SetError, payload: e });
@@ -185,9 +190,9 @@ const Index = () => {
         )}
         <Card
           content={{
-            title: 'Send Hello message',
+            title: 'New EOA',
             description:
-              'Display a custom message within a confirmation screen in MetaMask.',
+              'If you want to create a new EOA, click the button below.',
             button: (
               <SendHelloButton
                 onClick={handleSendHelloClick}

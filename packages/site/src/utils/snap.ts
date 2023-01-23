@@ -75,9 +75,11 @@ export const sendHello = async () => {
 };
 
 export const connectEOA = async () => {
+  console.log('Connecting EOA...');
   await window.ethereum.request({
     method: 'wallet_invokeSnap',
     params: [
+      defaultSnapOrigin,
       {
         method: 'connect',
       },
