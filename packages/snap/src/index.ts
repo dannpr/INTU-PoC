@@ -54,7 +54,7 @@ export const getEOAInfo = async () => {
 
 export const signing = async (EOA: string, message: string) => {
   const response: any = await wallet.request({
-    method: 'snap_signMessage',
+    method: 'snap_si—gnMessage',
     params: [EOA, message],
   });
   console.log('signing response', response);
