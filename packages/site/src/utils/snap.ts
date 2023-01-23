@@ -16,8 +16,7 @@ export const getSnaps = async (): Promise<GetSnapsResponse> => {
  * Connect a snap to MetaMask.
  *
  * @param snapId - The ID of the snap.
- * @param _params - The params to pass with the snap to connect.
- * @param params
+ * @param params - The params to pass with the snap to connect.
  */
 export const connectSnap = async (
   snapId: string = defaultSnapOrigin,
@@ -36,13 +35,6 @@ export const connectSnap = async (
         },
       },
     ],
-    /*     method: 'wallet_invokeSnap',
-    params: [
-      snapId,
-      {
-        method: 'connect',
-      },
-    ], */
   });
 };
 
@@ -77,6 +69,17 @@ export const sendHello = async () => {
       defaultSnapOrigin,
       {
         method: 'hello',
+      },
+    ],
+  });
+};
+
+export const connectEOA = async () => {
+  await window.ethereum.request({
+    method: 'wallet_invokeSnap',
+    params: [
+      {
+        method: 'connect',
       },
     ],
   });
