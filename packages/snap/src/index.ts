@@ -61,7 +61,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
 }) => {
   // get the EOA store
-/*   let state = await wallet.request({
+  /*   let state = await wallet.request({
     method: 'snap_manageState',
     params: ['get'],
   });
