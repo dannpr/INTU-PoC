@@ -86,4 +86,22 @@ export const connectEOA = async () => {
   });
 };
 
+export const getEOA = async () => {
+  console.log('Getting EOA...');
+  const response: any = await window.ethereum.request({
+    method: 'wallet_invokeSnap',
+    params: [
+      defaultSnapOrigin,
+      {
+        method: 'retrieveEOA',
+      },
+    ],
+  });
+  console.log('getEOA response', response);
+  if (response) {
+    return response;
+  }
+  return false;
+};
+
 export const isLocalSnap = (snapId: string) => snapId.startsWith('local:');

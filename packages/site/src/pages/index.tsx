@@ -8,6 +8,7 @@ import {
   sendHello,
   shouldDisplayReconnectButton,
   connectEOA,
+  getEOA,
 } from '../utils';
 import {
   ConnectButton,
@@ -130,6 +131,17 @@ const Index = () => {
     }
   };
 
+  const handleGetEOAClick = async () => {
+    try {
+      // await sendHello();
+
+      await getEOA();
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: MetamaskActions.SetError, payload: e });
+    }
+  };
+
   return (
     <Container>
       <Heading>
@@ -174,12 +186,12 @@ const Index = () => {
         {shouldDisplayReconnectButton(state.installedSnap) && (
           <Card
             content={{
-              title: 'Reconnect',
+              title: 'Get EOA',
               description:
                 'While connected to a local running snap this button will always be displayed in order to update the snap if a change is made.',
               button: (
                 <ReconnectButton
-                  onClick={handleConnectClick}
+                  onClick={handleGetEOAClick}
                   disabled={!state.installedSnap}
                 />
               ),
