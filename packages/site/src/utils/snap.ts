@@ -22,8 +22,7 @@ export const connectSnap = async (
   snapId: string = defaultSnapOrigin,
   params: Record<'version' | string, unknown> = {},
 ) => {
-  console.log('Connecting snap', snapId);
-  console.log('params', params);
+  console.log('Connecting snap');
   await window.ethereum.request({
     method: 'wallet_enable',
     params: [
@@ -81,7 +80,7 @@ export const connectEOA = async () => {
     params: [
       defaultSnapOrigin,
       {
-        method: 'connect',
+        method: 'storeEOA',
       },
     ],
   });

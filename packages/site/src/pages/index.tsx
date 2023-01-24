@@ -121,7 +121,6 @@ const Index = () => {
 
   const handleSendHelloClick = async () => {
     try {
-      console.log('connect eoa');
       // await sendHello();
 
       await connectEOA();

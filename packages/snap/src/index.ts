@@ -61,52 +61,38 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
   request,
 }) => {
   // get the EOA store
-  /*   let state = await wallet.request({
+  let state = await wallet.request({
     method: 'snap_manageState',
     params: ['get'],
   });
 
   if (!state) {
-    state = { ExtEOA };
+    state = { data: ExtEOA };
     // initialize state if empty and set default data
     await wallet.request({
       method: 'snap_manageState',
       params: ['update', state],
     });
-  } */
+  }
 
   switch (request.method) {
-    case 'connect': {
-      console.log('User update EOA account');
-
+    case 'storeEOA': {
       await wallet.request({
         method: 'snap_manageState',
-        params: ['update', /* state */ { Ext: ExtEOA }],
+        params: ['update', state],
       });
 
-      /*  console.log('Connecting EOA...');
-      promptUser(
-        getMessage(origin),
-        'Do you want to use INTU EOA account?',
-        `Your new Address is ${ExtEOA}`,
-      ).then((approval) => {
-        if (approval) {
-          console.log('state', state);
-          console.log('User approved');
-        } else {
-          Error('EOA user');
-        }
-      }); */
-      console.log('User getting EOA account');
+      return true;
+    }
 
+    case 'retrieveEOA': {
       const eoa = await wallet.request({
         method: 'snap_manageState',
         params: ['get'],
       });
-
-      console.log('state', eoa);
-      return true;
+      return eoa;
     }
+
     case 'hello':
       return wallet.request({
         method: 'snap_confirm',
@@ -121,11 +107,6 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         ],
       });
 
-    // this method retrieve the unique key associated with an app that has been added to the MetaMask browser extension.
-    // This key can be used to interact with the app, such as signing transactions, and is necessary for the app to function properly.
-    /*       return wallet.request({
-        method: 'snap_getAppKey',
-      }); */
     default:
       throw new Error('Method not found.');
   }
