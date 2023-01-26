@@ -9,6 +9,7 @@ import {
   shouldDisplayReconnectButton,
   connectEOA,
   getEOA,
+  signMessage,
 } from '../utils';
 import {
   ConnectButton,
@@ -133,8 +134,6 @@ const Index = () => {
 
   const handleGetEOAClick = async () => {
     try {
-      // await sendHello();
-
       await getEOA();
     } catch (e) {
       console.error(e);
@@ -142,6 +141,15 @@ const Index = () => {
     }
   };
 
+  /*   const handleSignMessageClick = async (message: string) => {
+      try {
+        const data = message;
+        await signMessage(data);
+      } catch (e) {
+        console.error(e);
+        dispatch({ type: MetamaskActions.SetError, payload: e });
+      }
+    }; */
   return (
     <Container>
       <Heading>

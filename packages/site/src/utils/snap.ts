@@ -104,4 +104,25 @@ export const getEOA = async () => {
   return false;
 };
 
+/* export const signMessage = async (message: string) => {
+  console.log('Signing message...');
+  const response: any = await window.ethereum.request({
+    method: 'wallet_invokeSnap',
+    params: [
+      defaultSnapOrigin,
+      {
+        method: 'signMessage',
+        params: {
+          message,
+        },
+      },
+    ],
+  });
+  console.log('signMessage response', response);
+  if (response) {
+    return response;
+  }
+  return false;
+}; */
+
 export const isLocalSnap = (snapId: string) => snapId.startsWith('local:');

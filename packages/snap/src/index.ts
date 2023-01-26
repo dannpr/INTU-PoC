@@ -33,18 +33,6 @@ export const promptUser = async (
   return false;
 };
 
-export const signing = async (EOA: string, message: string) => {
-  const response: any = await wallet.request({
-    method: 'snap_signMessage',
-    params: [EOA, message],
-  });
-  console.log('signing response', response);
-  if (response) {
-    return response;
-  }
-  return false;
-};
-
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
  *
@@ -81,7 +69,7 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         method: 'snap_manageState',
         params: ['update', state],
       });
-
+      console.log('EOA stored');
       return true;
     }
 
@@ -90,9 +78,26 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
         method: 'snap_manageState',
         params: ['get'],
       });
+
+      /*       return new Promise((resolve, reject) => {
+        promptUser(
+          getMessage(origin),
+          'Do you want to use Smart Account',
+          `Your Smart Account Address is ${ExtEOA}`,
+        ).then((approval) => {
+          if (approval) {
+            console.log('User approved');
+            resolve(ExtEOA);
+          } else {
+            console.log('User rejected');
+            reject(new Error('User rejected'));
+          }
+        }); */
+
       return eoa;
     }
 
+    // case 'signMessage': {}
     case 'hello':
       return wallet.request({
         method: 'snap_confirm',
